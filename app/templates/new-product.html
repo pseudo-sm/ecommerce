@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="{% url 'new_product_action' %}" method="POST">
+        {% csrf_token %}
+    Product Name : <input type="text" name="name"> <br>
+    Price : <input type="text" name="price"> <br>
+    Description : <input type="text" name="description"> <br>
+    <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>
