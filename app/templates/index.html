@@ -1,18 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>Welcome</h1>
-<p>This is an html file. The name of this file is index.html and it resides inside templates directory.</p>
+{% include 'top.html' %}
 
-<h3>List of products : </h3>
-<ul>
+
+<div class="container">
+  <div class="row">
     {% for product in products %}
-        <li>{{product.id}} - {{product.name}} - {{product.price}} - {{product.description}}</li>
+      <div class="col-sm-4">
+        <div class="panel panel-primary">
+    <!--        <div class="panel-heading">BLACK FRIDAY DEAL</div>-->
+          <div class="panel-body"><img src="{{product.image.url}}" class="img-responsive" style="width:100%" alt="Image"></div>
+          <div class="panel-footer">
+            <span class="float-left product-name">{{product.name}}</span><span class="price" style="margin-left:225px;">Rs.{{product.price}}</span>
+            <button class="btn btn-primary buy">Buy</button>
+            <div class="cart-btns" style="display:none;"><button class="btn btn-danger remove">-</button><span class="cart-count">1</span><button class="btn btn-success add">+</button></div>
+          </div>
+        </div>
+      </div>
     {% endfor %}
-</ul>
+  </div>
+</div><br>
+<script>
+  $(".buy").click(function(){
+    cart_btns = $(this).parent().find(".cart-btns");
+    cart_btns.css('display','block')
+    count = cart_btns.find(".cart-count").html();
+    $(this).css('display','none');
+  })
+
+  $(".add").click(function() {
+    count = $(this).parent().find(".cart-count").html();
+    count = parseInt(count);
+    $(this).parent().find(".cart-count").html(count+1);
+  });
+
+  $(".remove").click(function() {
+    count = $(this).parent().find(".cart-count").html();
+    count = parseInt(count);
+    if(count-1==0)
+    {
+      $(this).parent(".cart-btns").css('display','none');
+      $(this).parent().parent().find('.buy').css('display','block');
+    }
+    $(this).parent().find(".cart-count").html(count-1);
+  });
+</script>
+<br><br>
+
+{% include 'footer.html' %}
+
 </body>
 </html>

@@ -1,0 +1,52 @@
+{% include 'top.html' %}
+<div class="container ">
+    <div class="form" style="padding:35px;">
+        Username : <input class="form-control" type="text" id="username">
+        Password : <input class="form-control" type="password" id="password">
+        <button class="btn btn-primary" id="signup" style="width:100%;margin-top:15px;">Signup</button>
+
+        Already have an account? <a href="{% url 'signin' %}">Signin here</a>
+    </div>
+</div>
+<script>
+    $("#signup").click(function() {
+        username = $("#username").val();
+        password = $("#password").val();
+        submit = true;
+        if(username=="")
+        {
+            submit = false;
+            $("#username").css('border','2px solid red');
+        }
+        if(password=="")
+        {
+            submit = false;
+            $("#password").css('border','2px solid red');
+        }
+        if(submit) {
+        $.ajax({
+            type: "GET",
+            url: "{% url 'signup_action' %}",
+            data: {
+            'username':username,
+            'password':password,
+            },
+        cache: false,
+        success: function(data){
+        alert('Successfully signed up!!');
+        }
+    });
+    }
+  });
+   $(".form-control").keyup(function() {
+        if($("#username").val()!="")
+        {
+            $("#username").css('border','0px');
+        }
+        if($("#password").val()!="")
+        {
+            $("#password").css('border','0px');
+        }
+   });
+</script>
+{% include 'footer.html' %}
