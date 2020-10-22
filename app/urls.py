@@ -21,6 +21,7 @@ urlpatterns = [
     path("products",views.products),
     path("signup",views.signup,name="signup"),
     path("signin",views.signin,name="signin"),
+    path("logout",views.logout,name="logout"),
     path("signup-action",views.signup_action,name="signup_action"),
     path("signin-action",views.signin_action,name="signin_action"),
     path("",views.index,name="index"),

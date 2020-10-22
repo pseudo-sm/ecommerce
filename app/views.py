@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Product
@@ -8,7 +9,7 @@ from .models import *
 # Create your views here.
 
 
-
+@login_required(login_url="signin")
 def index(request):
     products = Product.objects.all()
     return render(request,"index.html",{"products":products})
@@ -52,10 +53,18 @@ def signup_action(request):
 def signin_action(request):
     username = request.GET.get("username")
     password = request.GET.get("password")
-    print(username)
-    print(password)
-    user = auth.authenticate(request,username=username,password=password)
-    auth.login(request,user)
-    print(user)
-    customer = Customer.objects.get(user_id=user)
-    return JsonResponse({"customer":customer.user_id},safe=False)
+
+    users = User.objects.filter(username=username,password=password)
+    if len(users) > 0:
+        user = users.first()
+        auth.login(request,user)
+        print(user)
+        customer = Customer.objects.get(user_id=user)
+        return JsonResponse({"customer":customer.user_id.pk,"status":True},safe=False)
+    else:
+        return JsonResponse({"status":False})
+
+def logout(request):
+    auth.logout(request)
+    return redirect("/signin")
+

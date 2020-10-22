@@ -33,9 +33,12 @@
             },
         cache: false,
         success: function(data){
-            console.log(data);
-            alert('succesfully logged in');
+        if(data.status) {
             location.href="{% url 'index' %}";
+            }
+           else {
+            alert('Invalid Credentials');
+           }
         }
     });
     }
